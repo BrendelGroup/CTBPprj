@@ -5,8 +5,9 @@
 #
 wget https://brendelgroup.org/SingularityHub/CTBPprj.sif
 
-# ... for usage instructions, see
-# https://github.com/BrendelGroup/bgSingularityHub
+# ... see CTBPprj.def for installed programs, and see
+#	https://github.com/BrendelGroup/bgSingularityHub
+# ... for usage instructions
 
 
 # 2. Download the Trinity singularity immage:
