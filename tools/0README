@@ -1,7 +1,7 @@
 # Packages and scripts used in our analyses.
 #
 
-# 1. Get our CTBPprj apptainer image files:
+# 1. Get our CTBPprj apptainer image file:
 #
 wget https://brendelgroup.org/SingularityHub/CTBPprj.sif
 
