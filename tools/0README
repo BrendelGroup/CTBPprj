@@ -1,0 +1,17 @@
+# Packages and scripts used in our analyses.
+#
+
+# 1. Get our CTBPprj apptainer image files:
+#
+wget https://brendelgroup.org/SingularityHub/CTBPprj.sif
+
+# ... for usage instructions, see
+# https://github.com/BrendelGroup/bgSingularityHub
+
+
+# 2. Download the Trinity singularity immage:
+# 
+wget https://data.broadinstitute.org/Trinity/TRINITY_SINGULARITY/trinityrnaseq.v2.15.1.simg
+
+# ... for usage instructions, see
+# https://github.com/trinityrnaseq/trinityrnaseq/wiki/Trinity-in-Docker#trinity_singularity
