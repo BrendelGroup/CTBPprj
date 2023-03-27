@@ -1,0 +1,22 @@
+#!/bin/bash
+#
+
+# ... removes "exon" lines from input gff3 file if the corresponding parental mRNA
+# ID tag is missing:
+
+gff3file=$1
+
+cat ${gff3file} | egrep "ID=rna-" | cut -f9 | cut -d";" -f1 | cut -d"=" -f2 > lst-mid
+
+while read line; do
+ if [[ "$line" =~ "	exon	" ]]; then
+	 id=`echo $line | cut -f9 | cut -d"=" -f3 | cut -d";" -f1`
+	 n=`egrep "${id}$" lst-mid | wc -l`
+	 if [ $n -gt 0 ]; then
+		 echo "$line" >> ${gff3file}CLEANED
+	 fi
+ else
+	 echo "$line" >> ${gff3file}CLEANED
+ fi
+done < ${gff3file}
+\rm lst-mid

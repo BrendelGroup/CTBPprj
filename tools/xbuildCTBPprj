@@ -1,0 +1,2 @@
+sudo /usr/bin/singularity build CTBPprj.sif CTBPprj.def >& errCTBPprj &
+tail -f errCTBPprj
