@@ -1,0 +1,55 @@
+#!/bin/bash
+#
+shopt -s expand_aliases
+
+# Specify the working directory and the CTBPprj singularity image file:
+#
+workdir=${PWD}/..
+CONTAINER=${workdir}/tools/CTBPprj.sif
+
+alias rws="singularity exec -e -B${workdir} $CONTAINER"
+
+
+# Preparation:
+#
+ln -s ../genome/GCF_000001635.27_GRCm39_genomic.fna Mmus.gdna.fa
+
+# ... prepare a gff3 file with gene and protein-tagged mRNA annotation:
+#
+cat ../genome/GCF_000001635.27_GRCm39_genomic.gff | \
+	egrep "^#|	gene	|	mRNA	|	exon	" \
+	> Mmus.gff3
+
+# ... remove exon entries without parental mRNA ID tag:
+#
+time ../tools/xpeogff3 Mmus.gff3
+
+#real	370m26.935s
+#user	143m38.805s
+#sys	411m40.571s
+
+\mv Mmus.gff3CLEANED Mmus.gff3
+
+# ... create a gtf file:
+#
+rws gt gff3_to_gtf -o Mmus.gtf  Mmus.gff3
+
+
+# Now for the real work:
+
+time ./xrsemStep1 >& err-step1
+#
+#real	108m1.532s
+#user	105m56.372s
+#sys	0m25.695s
+#
+# => directory ref
+
+time ./xrsemStep2 >& err-step2
+#
+#real	1067m46.584s
+#user	5915m49.539s
+#sys	176m36.581s
+#
+# => directories CTBPctl[1-3] CTBPknd[1-3]
+

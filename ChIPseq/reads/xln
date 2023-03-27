@@ -1,0 +1,6 @@
+ln -s chsCTBP1/chsCTBP1_1.fq ./
+ln -s chsCTBP1/chsCTBP1_2.fq ./
+ln -s chsCTBP2/chsCTBP2_1.fq ./
+ln -s chsCTBP2/chsCTBP2_2.fq ./
+ln -s chsCTRL1/chsCTRL1_1.fq ./
+ln -s chsCTRL1/chsCTRL1_2.fq ./

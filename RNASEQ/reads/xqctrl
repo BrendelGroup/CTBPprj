@@ -1,0 +1,16 @@
+#!/bin/bash
+#
+
+SAMPLES="CTBPknd1 CTBPknd2 CTBPknd3 CTBPctl1 CTBPctl2 CTBPctl3"
+NUMPROC=1
+for i in ${SAMPLES}
+do
+  mkdir ${i}
+  cd ${i}
+  \cp ../Makefile_PR-template Makefile_PR-${i}
+  sed -i "s/SYNONYM           = RNA_SYNONYM/SYNONYM           = $i/;" Makefile_PR-${i}
+  sed -i "s/ACCESSIONS        = RNA_ACCESSIONS/ACCESSIONS        = $i/;" Makefile_PR-${i}
+  (make -j $NUMPROC -I../ -I../../ -f Makefile_PR-${i} >& err_${i}) &
+  cd ..
+done
+wait

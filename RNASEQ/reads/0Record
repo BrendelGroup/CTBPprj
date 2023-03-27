@@ -1,0 +1,9 @@
+time singularity exec -e -B ${PWD}/../.. ../../tools/CTBPprj.sif  bash ./xqctrl 
+
+#real	86m35.703s
+#user	615m23.316s
+#sys	64m1.872s
+
+bash ./xln
+
+singularity exec -e -B${PWD}/../../.. ../../tools/CTBPprj.sif  seqkit stats -j 12 *fq -T > summary.stats

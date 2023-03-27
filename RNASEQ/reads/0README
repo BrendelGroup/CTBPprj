@@ -1,0 +1,18 @@
+# The run1 RNAseq data consists of 3 knockdown samples (CTBPknd[1-3]) and
+# 3 control samples (CTBPctrl[1-3]).
+
+# A preliminary run of the workflow identified the sequences collected in
+# artifacts.fa as over-represented sequences (FastQC report). The modified
+# Makefile template uses tagdust to remove all matching reads.
+
+# After quality control (as per Makefile_PR-template), between 96.82% and
+# 97.78% read pairs from the original data survive as "clean" reads, and
+# between 253K and 708K reads per sample are removed ("tagdusted") as
+# matching artifactsi (rRNA or artifacts.fa sequences).
+
+# FASTQ reports before and after cleaning can be viewed with
+#	firefox */*/*html
+
+# "summary.stats" gives summary statistics for the clean read sets. The samples
+# have between 25.8M and 31.7M read pairs, with corresponding total sequence
+# size about 2 * 1.61Gb and 2 * 1.98Gb, respectively.

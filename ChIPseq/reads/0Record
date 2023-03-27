@@ -1,0 +1,6 @@
+time singularity exec -e -B ${PWD}/../.. ../../tools/CTBPprj.sif  bash ./xqctrl
+
+#real	63m2.603s
+#user	303m2.565s
+#sys	32m45.046s
+

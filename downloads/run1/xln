@@ -1,0 +1,31 @@
+#!/bin/bash
+#
+RAWREAD_DIR=.
+
+# RNAseq data: 3 replicates of CTBP knockdown (knd) and 3 replicates of
+#              control (ctl)
+#
+ln -s ${RAWREAD_DIR}/GSF3494-CTBP1_S4_R1_001.fastq.gz CTBPknd1_1.fastq.gz
+ln -s ${RAWREAD_DIR}/GSF3494-CTBP1_S4_R2_001.fastq.gz CTBPknd1_2.fastq.gz
+ln -s ${RAWREAD_DIR}/GSF3494-CTBP2_S5_R1_001.fastq.gz CTBPknd2_1.fastq.gz
+ln -s ${RAWREAD_DIR}/GSF3494-CTBP2_S5_R2_001.fastq.gz CTBPknd2_2.fastq.gz
+ln -s ${RAWREAD_DIR}/GSF3494-CTBP3_S6_R1_001.fastq.gz CTBPknd3_1.fastq.gz
+ln -s ${RAWREAD_DIR}/GSF3494-CTBP3_S6_R2_001.fastq.gz CTBPknd3_2.fastq.gz
+
+ln -s ${RAWREAD_DIR}/GSF3494-Scr1_S1_R1_001.fastq.gz CTBPctl1_1.fastq.gz
+ln -s ${RAWREAD_DIR}/GSF3494-Scr1_S1_R2_001.fastq.gz CTBPctl1_2.fastq.gz
+ln -s ${RAWREAD_DIR}/GSF3494-Scr2_S2_R1_001.fastq.gz CTBPctl2_1.fastq.gz
+ln -s ${RAWREAD_DIR}/GSF3494-Scr2_S2_R2_001.fastq.gz CTBPctl2_2.fastq.gz
+ln -s ${RAWREAD_DIR}/GSF3494-Scr3_S3_R1_001.fastq.gz CTBPctl3_1.fastq.gz
+ln -s ${RAWREAD_DIR}/GSF3494-Scr3_S3_R2_001.fastq.gz CTBPctl3_2.fastq.gz
+
+
+# ChIP-seq: 2 replicates CTBP (chsCTBP), and 1 control (chsCTRL)
+#
+ln -s ${RAWREAD_DIR}/GSF3494-CTBP2-1_S8_R1_001.fastq.gz chsCTBP1_1.fastq.gz
+ln -s ${RAWREAD_DIR}/GSF3494-CTBP2-1_S8_R2_001.fastq.gz chsCTBP1_2.fastq.gz
+ln -s ${RAWREAD_DIR}/GSF3494-CTBP2-2_S9_R1_001.fastq.gz chsCTBP2_1.fastq.gz
+ln -s ${RAWREAD_DIR}/GSF3494-CTBP2-2_S9_R2_001.fastq.gz chsCTBP2_2.fastq.gz
+
+ln -s ${RAWREAD_DIR}/GSF3494-control_S7_R1_001.fastq.gz chsCTRL1_1.fastq.gz
+ln -s ${RAWREAD_DIR}/GSF3494-control_S7_R2_001.fastq.gz chsCTRL1_2.fastq.gz

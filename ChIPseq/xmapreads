@@ -1,0 +1,33 @@
+#!/bin/bash
+#
+shopt -s expand_aliases
+
+# Specify the working directory and the CTBPprj singularity image file:
+#
+workdir=${PWD}/..
+CONTAINER=${workdir}/tools/CTBPprj.sif
+
+alias rws="singularity exec -e -B${workdir} $CONTAINER"
+
+
+# 1. Create bowtie2 index:
+#
+mkdir MmusBT2
+cd MmusBT2
+ln -s ../../genome/GCF_000001635.27_GRCm39_genomic.fna Mmus.gdna.fa
+
+rws bowtie2-build Mmus.gdna.fa Mmus
+cd ..
+
+# 2. Map the reads:
+#
+SAMPLES="chsCTBP1 chsCTBP2 chsCTRL1"
+
+for sample in ${SAMPLES}
+do
+  echo -e "\n${sample}: ChIPseq read alignments with bowtie2 versus Mmus genome:\n"
+  bowtie2 -p 8 --local -X 1000 --no-mixed --no-discordant --no-unal -q \
+	-x ./MmusBT2/Mmus \
+	-1 reads/${sample}_1.fq  -2 reads/${sample}_2.fq \
+	> ${sample}-Mmus.bam
+done

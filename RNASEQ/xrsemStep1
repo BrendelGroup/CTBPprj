@@ -1,0 +1,23 @@
+#!/bin/bash
+#
+shopt -s expand_aliases
+
+# Specify the working directory and the CTBPprj singularity image file:
+#
+workdir=${PWD}/..
+CONTAINER=${workdir}/tools/CTBPprj.sif
+
+alias rws="singularity exec -e -B${workdir} $CONTAINER"
+
+
+BOWTIE2_DIR=/opt/bowtie2-2.5.1-linux-x86_64
+GFF3FILE=Mmus.gff3
+FASTAFILE=Mmus.gdna.fa
+LABEL=Mmus
+
+mkdir ref
+
+
+# Prepare the reference genome for the bowtie2 aligner:
+#
+rws rsem-prepare-reference --gff3 ${GFF3FILE} --bowtie2 --bowtie2-path ${BOWTIE2_DIR} ${FASTAFILE}  ref/${LABEL}

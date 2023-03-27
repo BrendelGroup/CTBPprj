@@ -1,0 +1,10 @@
+time ./xmapreads >& mapping.log
+
+#real	464m31.666s
+#user	2054m10.040s
+#sys	9m56.778s
+
+singularity exec -e -B${PWD}/.. ../tools/CTBPprj.sif samtools view -H chsCTBP1-Mmus.bam > header
+singularity exec -e -B${PWD}/.. ../tools/CTBPprj.sif samtools view chsCTBP1-Mmus.bam > chsCTBP1-Mmus.sam
+singularity exec -e -B${PWD}/.. ../tools/CTBPprj.sif samtools view chsCTBP2-Mmus.bam > chsCTBP2-Mmus.sam
+singularity exec -e -B${PWD}/.. ../tools/CTBPprj.sif samtools view chsCTRL1-Mmus.bam > chsCTRL1-Mmus.sam

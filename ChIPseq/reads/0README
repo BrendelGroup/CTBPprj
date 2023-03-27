@@ -1,0 +1,14 @@
+# The run1 ChIPseq data consists of 2 CTBP samples (chsCTBP[1-2]) and
+# 1 control sample (chsCTRL1).
+
+# After quality control (as per Makefile_PR-template), between 96.04% and
+# 96.67% read pairs from the original data survive as "clean" reads, and
+# between 10.6K and 18.7K reads per sample are removed ("tagdusted") as
+# matching Ms_rRNA.
+
+# FASTQ reports before and after cleaning can be viewed with
+#	firefox */*/*html
+
+# "table" gives summary statistics for the clean read sets. The samples have
+# between 26.5M and 32.7M read pairs, with corresponding total sequence size 
+# 1.65Gb and 2.04Gb, respectively.

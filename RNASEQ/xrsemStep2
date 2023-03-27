@@ -1,0 +1,31 @@
+#!/bin/bash
+#
+shopt -s expand_aliases
+
+# Specify the working directory and the CTBPprj singularity image file:
+#
+workdir=${PWD}/..
+CONTAINER=${workdir}/tools/CTBPprj.sif
+
+alias rws="singularity exec -e -B${workdir} $CONTAINER"
+
+
+BOWTIE2_DIR=/opt/bowtie2-2.5.1-linux-x86_64
+THREADS=8
+SEED_LENGTH=38
+LABEL=Mmus
+
+
+READDIR=./reads
+SAMPLES="CTBPknd1 CTBPknd2 CTBPknd3 CTBPctl1 CTBPctl2 CTBPctl3"
+
+
+for sample in ${SAMPLES}
+do
+READPAIR="${READDIR}/${sample}_1.fq ${READDIR}/${sample}_2.fq"
+  rws rsem-calculate-expression --bowtie2 --bowtie2-path ${BOWTIE2_DIR} --paired-end --num-threads ${THREADS} \
+	--output-genome-bam --calc-ci --time --seed-length ${SEED_LENGTH} \
+	${READPAIR}  ref/${LABEL} ${sample}-bowtie2  >&  err_rsem_${sample}-bowtie2
+  mkdir ${sample}
+  mv *${sample}-bowtie2* ${sample}
+done
