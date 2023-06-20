@@ -1,0 +1,45 @@
+# 1. Genome data were obtained from NCBI Genome and put into directory "genome":
+#
+mkdir genome
+cd genome
+ln -s GCF_000001635.27_GRCm39_genomic.fna Mmus.gdna.fa
+ln -s GCF_000001635.27_GRCm39_genomic.gff Mmus.gff
+
+# The following rRNA gene accessions were pulled from NCBI Nucleotide into file
+# "Ms_rRNA" (used for screeing out rRNA tags in the RNAseq data):
+#
+# V00849.1 Mouse gene for 45S ribosomal RNA
+# X00525.1 Mouse 28S ribosomal RNA
+# X00686.1 Mouse gene for 18S rRNA
+# J01871.1 Mouse 5.8S ribosomal RNA
+# K02235.1 Mouse 5S rRNA gene M4
+
+# Note: Gene Ctbp1 is on chromosome 5 (NC_000071.7:33405067-33432467) and
+#       gene Ctbp2 is on chromosome 7 (NC_000073.7:132588727-132725908)
+cd ..
+
+
+# 2. We create a tools directory to store software we need:
+#
+mkdir tools
+cd tools
+# vi 0README # ... record instructions executed by the next step:
+#
+bash 0README 
+cd ..
+
+
+# 3. The downloads directory contains the experimental sequence data downloaded
+#    from CGB:
+#
+cd downloads/run1
+./xln
+cd ../..
+
+
+# 4. RNASEQ analysis:
+#
+cd RNASEQ
+cd reads
+cd ..
+
