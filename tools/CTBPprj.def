@@ -1,23 +1,27 @@
 bootstrap: docker
-From: fedora:37
+From: fedora:38
 
 %help
     This container provides working software versions for the CTBP project.
 
+%files
+    xinstall-edirect /opt/xinstall-edirect
+    ChIPQC_1.41.0.tar.gz /opt/ChIPQC_1.41.0.tar.gz
+
 %post
     dnf -y update
-    dnf -y install bc bzip2 findutils git lftp mlocate tcsh unzip zip wget which
+    dnf -y install bc bzip2 findutils git lftp mlocate rsync tcsh unzip zip wget which
     dnf -y install gcc-c++ make automake cmake ruby
     dnf -y install glibc-static
     dnf -y install boost boost-devel
     dnf -y install cairo-devel pango-devel zlib-devel
     dnf -y install libnsl
     dnf -y install python python-biopython python3-wheel python-wheel-wheel python3-virtualenv python3-pip
-    dnf -y install python3-h5py python3-devel
+    dnf -y install python3-h5py python3-devel python3-setuptools
     dnf -y install pandoc
     dnf -y install java-11-openjdk java-11-openjdk-devel ant
     dnf -y install perl-App-cpanminus
-    dnf -y install curl libcurl libcurl-devel ncurses ncurses-devel
+    dnf -y install curl libcurl libcurl-devel ncurses ncurses-devel libjpeg libjpeg-devel
     dnf -y install openssl openssl-devel
 
 
@@ -36,15 +40,15 @@ From: fedora:37
     wget http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/Trimmomatic-0.39.zip
     unzip Trimmomatic-0.39.zip
     \rm Trimmomatic-0.39.zip
-# To run Trimmomatic, use the following alias on the host:
-#
-#alias trimmomatic="singularity exec -e -B${PWD} AllRice.sif java -Xmx16G -jar /opt/Trimmomatic-0.39/trimmomatic-0.39.jar"
+    echo '#!/bin/bash' > /usr/local/bin/trimmomatic
+    sed -i -e '$a #\n\n/java -Xmx16G -jar /opt/Trimmomatic-0.39/trimmomatic-0.39.jar "$@"' /usr/local/bin/trimmomatic
+    chmod a+x /usr/local/bin/trimmomatic
+
 
     echo 'Installing TagDust from https://sourceforge.net/projects/tagdust/files/latest/download '
-    #### Install
     cd /opt
-    wget --content-disposition https://sourceforge.net/projects/tagdust/files/tagdust-2.33.tar.gz/download
-    tar -xzf *tagdust-2.33.tar.gz* 
+    wget -O tagdust-2.33.tar.gz 'https://sourceforge.net/projects/tagdust/files/tagdust-2.33.tar.gz/download'
+    tar -xzf tagdust-2.33.tar.gz
     \rm  *tagdust-2.33.tar.gz*
     cd tagdust-2.33/
     ./configure CFLAGS="-g -fcommon"
@@ -58,12 +62,15 @@ From: fedora:37
 
     echo 'Installing SRAtoolkit from http://www.ncbi.nlm.nih.gov/books/NBK158900/ '
     cd /opt
-    wget http://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/3.0.2/sratoolkit.3.0.2-ubuntu64.tar.gz
-    tar -xzf sratoolkit.3.0.2-ubuntu64.tar.gz
-    \rm  sratoolkit.3.0.2-ubuntu64.tar.gz
+    wget http://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/3.1.0/sratoolkit.3.1.0-ubuntu64.tar.gz
+    tar -xzf sratoolkit.3.1.0-ubuntu64.tar.gz
+    \rm  sratoolkit.3.1.0-ubuntu64.tar.gz
 
     echo 'Installing UMI-tools from https://github.com/CGATOxford/UMI-tools '
-    pip3 install --upgrade umi-tools
+    cd /opt
+    git clone https://github.com/CGATOxford/UMI-tools.git
+    cd UMI-tools/
+    python setup.py install
 
     echo 'Installing HTSlib from http://www.htslib.org/ '
     cd /opt
@@ -80,11 +87,17 @@ From: fedora:37
 
     echo 'Installing SeqKit from https://github.com/shenwei356/seqkit '
     cd /opt
-    wget https://github.com/shenwei356/seqkit/releases/download/v2.4.0/seqkit_linux_amd64.tar.gz
+    wget https://github.com/shenwei356/seqkit/releases/download/v2.8.1/seqkit_linux_amd64.tar.gz
     tar -xzf seqkit_linux_amd64.tar.gz 
     chmod a+x seqkit
     mv seqkit /usr/local/bin
     \rm seqkit_linux_amd64.tar.gz
+
+    echo 'Installing UCSC Tools from http://hgdownload.soe.ucsc.edu/admin/exe/ '
+    cd /opt
+    mkdir ucsc
+    cd ucsc
+    rsync -aP rsync://hgdownload.soe.ucsc.edu/genome/admin/exe/linux.x86_64/ ./
 
 
 ### Read mapping
@@ -98,15 +111,15 @@ From: fedora:37
 
     echo 'Installing minimap2 from https://github.com/lh3/minimap2 '
     cd /opt
-    wget https://github.com/lh3/minimap2/releases/download/v2.24/minimap2-2.24_x64-linux.tar.bz2
-    tar -jxvf minimap2-2.24_x64-linux.tar.bz2
-    cp minimap2-2.24_x64-linux/minimap2 /usr/local/bin
+    wget https://github.com/lh3/minimap2/releases/download/v2.28/minimap2-2.28_x64-linux.tar.bz2
+    tar -jxvf minimap2-2.28_x64-linux.tar.bz2
+    cp minimap2-2.28_x64-linux/minimap2 /usr/local/bin
 
-    echo 'Installing Bowtie2 version 2.4.5 '
+    echo 'Installing Bowtie2 version 2.5.3 '
     cd /opt
-    wget https://github.com/BenLangmead/bowtie2/releases/download/v2.5.1/bowtie2-2.5.1-linux-x86_64.zip
-    unzip bowtie2-2.5.1-linux-x86_64.zip 
-    \rm bowtie2-2.5.1-linux-x86_64.zip
+    wget https://github.com/BenLangmead/bowtie2/releases/download/v2.5.3/bowtie2-2.5.3-linux-x86_64.zip
+    unzip bowtie2-2.5.3-linux-x86_64.zip 
+    \rm bowtie2-2.5.3-linux-x86_64.zip
 
     echo 'Installing hisat2 '
     cd /opt
@@ -127,9 +140,22 @@ From: fedora:37
     dnf -y install R
     echo 'repo <- "http://ftp.ussg.iu.edu/CRAN"' > R2install
     echo 'install.packages("pafr", repos = repo)' >> R2install
+    echo 'install.packages("getopt", repos = repo)' >> R2install
     echo 'install.packages("BiocManager", repos = repo)' >> R2install
     echo 'BiocManager::install(c("EBSeq","DESeq2","R2HTML"), ask=FALSE)' >> R2install
+    echo 'BiocManager::install(c("Rbowtie2","Rbwa"), ask=FALSE)' >> R2install
+    echo 'BiocManager::install(c("BSgenome.Mmusculus.UCSC.mm39"), ask=FALSE)' >> R2install
+    echo 'BiocManager::install(c("BSgenome.Dmelanogaster.UCSC.dm6"), ask=FALSE)' >> R2install
+    # Required for ChIPQC:
+    #
+    echo 'BiocManager::install(c("DiffBind", "chipseq", "reshape2", "Nozzle.R1", "GenomicFeatures", "TxDb.Hsapiens.UCSC.hg19.knownGene", "TxDb.Hsapiens.UCSC.hg18.knownGene", "TxDb.Mmusculus.UCSC.mm39.knownGene", "TxDb.Mmusculus.UCSC.mm10.knownGene", "TxDb.Mmusculus.UCSC.mm9.knownGene", "TxDb.Rnorvegicus.UCSC.rn4.ensGene", "TxDb.Celegans.UCSC.ce6.ensGene", "TxDb.Dmelanogaster.UCSC.dm3.ensGene"), ask=FALSE)' >> R2install
+    echo 'BiocManager::install(c(""), ask=FALSE)' >> R2install
     Rscript R2install
+
+    # Installing a modified version of ChIPQC which supports mm39:
+    #
+    echo 'Installing ChIPQC '
+    R CMD INSTALL ChIPQC_1.41.0.tar.gz
 
     echo 'Installing RSEM '
     cd /opt
@@ -143,19 +169,17 @@ From: fedora:37
 
 ### Alignment software
 
-    echo 'Installing BLAST+ version 2.12.0 from NCBI '
+    echo 'Installing BLAST+ version 2.15.0 from NCBI '
     cd /opt
-    wget ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.13.0/ncbi-blast-2.13.0+-x64-linux.tar.gz
-    tar -xzf ncbi-blast-2.13.0+-x64-linux.tar.gz
-    cd ncbi-blast-2.13.0+/bin
+    wget https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.15.0/ncbi-blast-2.15.0+-x64-linux.tar.gz
+    tar -xzf ncbi-blast-2.15.0+-x64-linux.tar.gz
+    cd ncbi-blast-2.15.0+/bin
     cp * /usr/local/bin/
     cd ../..
-    rm ncbi-blast-2.13.0+-x64-linux.tar.gz
+    rm ncbi-blast-2.15.0+-x64-linux.tar.gz
     cd ..
 
     echo 'Installing Vmatch aligner version 2.3.1 from http://vmatch.de '
-    #### Prerequisites
-    #### Install
     cd /opt
     wget http://vmatch.de/distributions/vmatch-2.3.1-Linux_x86_64-64bit.tar.gz
     tar -xzf vmatch-2.3.1-Linux_x86_64-64bit.tar.gz
@@ -191,12 +215,22 @@ From: fedora:37
     ln -s /opt/ngsutilsj/dist/ngsutilsj /usr/local/bin/ngsutilsj
     cd ../..
 
+    echo 'Installing NCBI EDirect from https://www.nlm.nih.gov/dataguide/edirect/install.html '
+    cd /opt
+    mkdir NCBIedirect
+    mv xinstall-edirect NCBIedirect
+    cd NCBIedirect
+    bash xinstall-edirect
+
+
 
 %environment
     export LC_ALL=C
+    export PATH=$PATH:/opt/ucsc
+    export PATH=$PATH:/opt/NCBIedirect/edirect
     export PATH=$PATH:/opt/FastQC
-    export PATH=$PATH:/opt/sratoolkit.3.0.2-ubuntu64/bin
-    export PATH=$PATH:/opt/bowtie2-2.5.1-linux-x86_64
+    export PATH=$PATH:/opt/sratoolkit.3.1.0-ubuntu64/bin
+    export PATH=$PATH:/opt/bowtie2-2.5.3-linux-x86_64
     export PATH=$PATH:/opt/hisat2-2.2.1
     export PATH=$PATH:/opt/STAR/bin/Linux_x86_64
     export PATH=$PATH:/opt/RSEM

@@ -1,0 +1,27 @@
+# To download the genome data for mouse (version mm39), you can simply execute
+#  the following command:
+#
+time bash ./0Record 
+
+#real	29m19.926s
+#user	68m7.440s
+#sys	14m7.783s
+
+# See comments in 0Record for details.
+
+# We also need an mm39 blacklist, which we obtained from the following site:
+#
+# https://drive.google.com/drive/folders/1sF9m8Y3eZouTZ3IEEywjs2kfHOWFBSJT 
+#  ... provides mm39.excluderanges.bed.gz
+#
+# Documentation:	https://github.com/dozmorovlab/excluderanges
+#
+#	mv ~/Downloads/mm39.excluderanges.bed.gz ./
+
+# Exclude ranges starting with 0 cause the ChIPQC function ChIPQCsample() to throw
+#  a fatal error:
+#	Error: subscript contains out-of-bounds ranges
+# We get around this by starting those ranges from 1000 instead:
+#
+#	gunzip mm39.excluderanges.bed.gz
+#	sed -e "s/	0	/	1000	/" mm39.excluderanges.bed > mm39.blacklist.bed

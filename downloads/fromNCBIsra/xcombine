@@ -1,0 +1,29 @@
+#!/bin/bash
+#
+
+cat SRR6823762.fastq SRR6823763.fastq > chs_PRDM16_e_1.fastq
+cat SRR6823764.fastq SRR6823765.fastq > chs_INPUT_PRDM16_e_1.fastq
+
+cat SRR6823766.fastq SRR6823767.fastq > chs_PRDM16_e_2.fastq
+cat SRR6823768.fastq SRR6823769.fastq > chs_INPUT_PRDM16_e_2.fastq
+
+cat SRR6823782.fastq SRR6823783.fastq SRR6823784.fastq > chs_H3K27ac_e_1.fastq
+cat SRR6823785.fastq SRR6823786.fastq > chs_INPUT_H3K27ac_e_1.fastq
+
+cat SRR6823787.fastq SRR6823788.fastq SRR6823789.fastq > chs_H3K27ac_e_2.fastq
+cat SRR6823790.fastq SRR6823791.fastq > chs_INPUT_H3K27ac_e_2.fastq
+
+mv SRR6823774.fastq chs_H3K4me1_e_1.fastq
+mv SRR6823775.fastq chs_INPUT_H3K4me1_e_1.fastq
+mv SRR6823776.fastq chs_H3K4me1_e_2.fastq
+mv SRR6823777.fastq chs_INPUT_H3K4me1_e_2.fastq
+mv SRR3651517.fastq chs_H3K4me3_e_1.fastq
+mv SRR3651670.fastq chs_INPUT_H3K4me3_e_1.fastq
+mv SRR3651516.fastq chs_H3K4me3_e_2.fastq
+mv SRR3651669.fastq chs_INPUT_H3K4me3_e_2.fastq
+mv SRR578278.fastq chs_CTCF_wb_1.fastq
+mv SRR489727.fastq chs_INPUT_CTCF_wb_1.fastq
+mv SRR578279.fastq chs_CTCF_wb_2.fastq
+mv SRR578284.fastq chs_INPUT_CTCF_wb_2.fastq
+
+\rm SRR*fastq

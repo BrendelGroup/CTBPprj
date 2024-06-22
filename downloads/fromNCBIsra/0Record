@@ -1,0 +1,25 @@
+#!/bin/bash
+#
+shopt -s expand_aliases
+
+# Run this script from within the CTBPprj singularity container, e.g.
+# with "rws" specified as follows:
+#
+workdir=${PWD}/../..
+prjSIF=${workdir}/tools/CTBPprj.sif
+
+alias rws="singularity exec -e -B${workdir} ${prjSIF}"
+
+
+# 1. Download data from NCBI SRA:
+#
+rws ./xdownload
+
+# 2. Combine and rename the downloaded files to reflect the experiments:
+#
+./xcombine
+
+# 3. Derive summary statistics:
+#
+rws seqkit stats -j 10 *.fastq    > summary.stats
+rws seqkit stats -j 10 *.fastq -T > summary.tsv
