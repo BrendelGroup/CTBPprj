@@ -1,0 +1,25 @@
+#!/bin/bash
+#
+shopt -s expand_aliases
+
+# Run this script from within the CTBPprj singularity container, e.g.
+# with "rws" specified as follows:
+#
+workdir=${PWD}/../..
+prjSIF=${workdir}/tools/CTBPprj.sif
+
+alias rws="singularity exec -e -B${workdir} ${prjSIF}"
+
+
+time rws  bash ./xqctrl
+#
+#real
+#
+#
+
+
+# Summary:
+#
+./xmv
+rws  seqkit stats -j 13 *fq    > summary.stats
+rws  seqkit stats -j 13 *fq -T > summary.tsv

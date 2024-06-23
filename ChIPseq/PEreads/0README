@@ -1,0 +1,10 @@
+# Read preparation (trimming and dusting). To produce the scrubbed reads, you
+#  can simply execute the following command:
+#
+time bash ./0Record
+
+#real	232m18.849s
+#user	2759m21.478s
+#sys	232m45.726s
+
+# See comments in Makefile_PEreadPreparation_template for details.
