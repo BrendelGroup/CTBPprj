@@ -13,7 +13,7 @@ alias rws="singularity exec -e -B${workdir} ${prjSIF}"
 
 time rws  bash ./xqctrl
 #
-#real
+#real ...
 #
 #
 

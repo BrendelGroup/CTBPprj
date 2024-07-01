@@ -1,0 +1,30 @@
+#!/bin/bash
+#
+shopt -s expand_aliases
+
+# Run this script from within the CTBPprj singularity container, e.g.
+# with "rws" specified as follows:
+#
+workdir=${PWD}/../..
+prjSIF=${workdir}/tools/CTBPprj.sif
+
+alias rws="singularity exec -e -B${workdir} ${prjSIF}"
+
+
+# 1. Aligning the reads to the combined mm39 mouse and dm6 Drosophila genome
+#    (followed by splitting the alignments to each genome separately):
+#
+rws ./xbt2VSmm39dm6 >& log
+
+
+# 2. Checking on the alignment results:
+#
+rws ./xmapping_success
+
+#
+# ... produces *.mapped.read.counts, mapping_success.summary (which should
+#  show 100% for all samples because the *.bam files should include only
+#  properly mapped read pairs at this point), and read_processing.summary
+#  (which gives a table of surviving read numbers from the original downloads
+#  through the stages of trimming, dusting, and mapping; percentages are
+#  calculated relative to the original download sets). 

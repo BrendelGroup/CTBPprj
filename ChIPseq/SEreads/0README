@@ -3,8 +3,8 @@
 #
 time bash ./0Record
 
-#real	51m45.585s
-#user	544m27.908s
-#sys	72m47.039s
+#real	55m56.870s
+#user	604m13.551s
+#sys	82m6.042s
 
 # See comments in Makefile_SEreadPreparation_template for details.

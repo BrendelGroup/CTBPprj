@@ -1,0 +1,13 @@
+# Read mapping to the combined mm39 plus dm6 genome, using bowtie2. To reproduce the
+#  results, you can simply execute the following command:
+#
+time bash ./0Record
+
+#
+#  real	321m57.360s
+#user	3664m34.580s
+#sys	53m24.918s
+
+# See xmapPEbt2 for details.
+# The final output are sorted *.bam files (with *.bai index) with only properly
+#  aligned read pairs (SAM codes 99/147 or 83/163), separated to each genome.

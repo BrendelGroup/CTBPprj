@@ -1,0 +1,36 @@
+#!/bin/bash
+#
+echo "Checking on a few reads identified as originating from Drosophila."
+echo ""
+
+echo "Number of INPUT_n_3 mappings to DM6:"
+grep -c DM6chr INPUT_n_3.sam
+echo ""
+echo "The last 4 of these:"
+grep DM6chr INPUT_n_3.sam | tail -n 4
+echo ""
+echo "Really not mapped to mm39 (as per previous mapping to mm39 only)?"
+grep "VH01095:113:AAFJMM3M5:1:2611:66384:48500\|VH01095:113:AAFJMM3M5:1:2611:48301:29966" ../bt2VSmm39/INPUT_n_3.sam
+echo ""
+echo "Really mapped to dm6 (as per previous mapping to dm6 only)?"
+samtools view ../bt2VSdm6/chs_INPUT_n_3.bam | grep "VH01095:113:AAFJMM3M5:1:2611:66384:48500\|VH01095:113:AAFJMM3M5:1:2611:48301:29966"
+echo ""
+
+echo ""
+echo ""
+echo "Number of CTBP2ko_n_1 mappings to DM6:"
+grep -c "DM6chr" CTBP2ko_n_1.sam
+echo ""
+echo "The last 4 of these:"
+grep "DM6chr" CTBP2ko_n_1.sam |tail -n 4
+echo ""
+echo "Really not mapped to mm39 (as per previous mapping to mm39 only)?"
+grep "VH01095:113:AAFJMM3M5:1:2611:22492:56376\|VH01095:113:AAFJMM3M5:1:2611:35197:56357" ../bt2VSmm39/CTBP2ko_n_1.sam
+echo ""
+echo "Really mapped to dm6 (as per previous mapping to dm6 only)?"
+samtools view ../bt2VSdm6/chs_CTBP2ko_n_1.bam | grep "VH01095:113:AAFJMM3M5:1:2611:22492:56376\|VH01095:113:AAFJMM3M5:1:2611:35197:56357"
+echo ""
+
+echo ""
+echo ""
+echo "Note: Running some of the dm reads through NCBI Blastn also confirms their Drosophila origin."
