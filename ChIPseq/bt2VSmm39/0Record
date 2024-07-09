@@ -17,15 +17,21 @@ rws ./xbt2VSmm39 >& log
 
 
 
-# Checking on the alignment results:
+# 2. Checking on the alignment results:
 #
 rws ./xPEmapping_success
 rws ./xSEmapping_success
 
 #
-# ... produces *.mapped.read.counts, mapping_success.summary (which should
-#  show 100% for all samples because the *.bam files should include only
-#  properly mapped read pairs at this point), and read_processing.summary
+# ... produces *.mapped.[PS]Eread.counts, [PS]Emapping_success.summary (which
+#  should show 100% for all samples because the *.bam files should include only
+#  properly mapped reads/pairs at this point), and [PS]Eread_processing.summary
 #  (which gives a table of surviving read numbers from the original downloads
 #  through the stages of trimming, dusting, and mapping; percentages are
 #  calculated relative to the original download sets). 
+
+
+# 3. Clean-up:
+#
+mkdir LOGFILES
+mv log* *counts LOGFILES
