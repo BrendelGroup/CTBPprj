@@ -28,3 +28,9 @@ rws ./xmapping_success
 #  (which gives a table of surviving read numbers from the original downloads
 #  through the stages of trimming, dusting, and mapping; percentages are
 #  calculated relative to the original download sets). 
+
+
+# 3. Clean-up:
+#
+mkdir LOGFILES
+mv log* *counts LOGFILES
